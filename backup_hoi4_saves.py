@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import os,sys
 from os import listdir
 from os.path import isfile, join
@@ -7,8 +8,9 @@ from datetime import date
 from datetime import timedelta
 from pathlib import Path
 import time
+print("Starting the backup script now.")
 
-def backup_hoi4_saves(max_saves=52,delta_minutes_min=5,Copy_delay=60,backup_dir=r"backup_mp/",maxtime=86400):
+def backup_hoi4_saves(*,max_saves=52,delta_minutes_min=5,copy_delay=60,backup_dir=r"backup_mp/",maxtime=86400):
     """
     Change the auto save setting in the game to specify the frequency of the autosaves.
 
@@ -18,12 +20,12 @@ def backup_hoi4_saves(max_saves=52,delta_minutes_min=5,Copy_delay=60,backup_dir=
 
     :param max_saves: Max Files to keep in backup_dir
     :param delta_minutes_min: Minimum minutes between backup saves
-    :param Copy_delay: Minimum minutes between backup saves
+    :param copy_delay: Minimum minutes between backup saves
     :param backup_dir: Folder within save dir to backup saves
     :type backup_dir:str
     :param maxtime: Stop the script after __ seconds
     """
-
+    maxtime=int(maxtime)
     ts = time.time()
     savegame_dir=os.path.abspath(os.path.expanduser("~/Documents/Paradox Interactive/Hearts of Iron IV/save games/"))
 
@@ -60,5 +62,16 @@ def backup_hoi4_saves(max_saves=52,delta_minutes_min=5,Copy_delay=60,backup_dir=
         time.sleep(copy_delay)
 
 
-# Run with over ride defaults
-backup_hoi4_saves(max_saves=52,delta_minutes_min=5,Copy_delay=60,backup_dir=r"backup_mp/",maxtime=86400)
+if __name__ == '__main__':
+    if len(sys.argv) == 1:
+        backup_hoi4_saves()
+    else:
+        parms={}
+        for item in sys.argv[1:]:
+            key,val = item.split("=")
+            if key in ("maxtime","copy_delay"):
+                parms[key]=int(val)
+            else:
+                parms[key]=val
+
+        backup_hoi4_saves(**parms)
