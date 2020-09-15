@@ -2,13 +2,13 @@
 
 This is a very basic script I created to backup multiplayer autosaves. It copys the autosave into a specified backup directory ever *copy_delay* seconds if the new autosave is more than *delta_minutes_min* minutes older than the most recent backup file. When the backup directory has more than *max_saves*, it deletes the oldest file in the backup directory.
 
-Hearts of Iron doesnt let you use folders for saves, so to load a backup auto save you need to copy it back into the save directory.
+Hearts of Iron doesnt let you use folders for saves, so **to load a backup auto save you need to copy it back into the save directory.**
 
 ### Caution
 
 This script might not work for you. It was created on windows and has not been tested on any other systems.
 
-Runing programs on the internet can be dangerous. 
+**Runing programs on the internet can be dangerous.**
 
 ### Caveats and other warnings
 
