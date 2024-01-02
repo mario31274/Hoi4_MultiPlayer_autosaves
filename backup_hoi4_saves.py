@@ -53,12 +53,14 @@ def backup_hoi4_saves(*,max_saves=52,delta_minutes_min=5,copy_delay=60,backup_di
         if autosave_time > max(filetimes)+datetime.timedelta(minutes=delta_minutes_min):
             shutil.copyfile(autosave, backup_path + "autosave" + autosave_time.strftime("%m.%d.%H.%M") + ".hoi4")
 
-        while len(filetimes) > max_saves:
+        num_files = len(filetimes)
+        while num_files > max_saves:
             files=[Path(backup_path + file) for file in os.listdir(backup_path)]
             files.sort(key=os.path.getmtime)
             oldest_file=files[0]
             print("Removing {}".format(oldest_file))
             os.remove(oldest_file)
+            num_files = num_files - 1
         time.sleep(copy_delay)
 
 
@@ -69,7 +71,7 @@ if __name__ == '__main__':
         parms={}
         for item in sys.argv[1:]:
             key,val = item.split("=")
-            if key in ("maxtime","copy_delay"):
+            if key in ("maxtime","copy_delay","delta_minutes_min","max_saves"):
                 parms[key]=int(val)
             else:
                 parms[key]=val
