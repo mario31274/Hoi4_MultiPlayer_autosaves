@@ -50,7 +50,7 @@ def backup_hoi4_saves(*,max_saves=52,delta_minutes_min=5,copy_delay=60,backup_di
 
         autosave_time = datetime.datetime.fromtimestamp(os.stat(autosave).st_mtime)
 
-        if autosave_time > max(filetimes)+datetime.timedelta(minutes=delta_minutes_min):
+        if len(filetimes) == 0 or autosave_time > max(filetimes)+datetime.timedelta(minutes=delta_minutes_min):
             shutil.copyfile(autosave, backup_path + "autosave" + autosave_time.strftime("%m.%d.%H.%M") + ".hoi4")
 
         num_files = len(filetimes)
